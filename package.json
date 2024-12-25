@@ -94,6 +94,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^6.1.1",
+    "@lemmmy/craco-less": "1.18.0",
     "@sentry/webpack-plugin": "^1.14.2",
     "@simbathesailor/babel-plugin-use-what-changed": "^2.0.3",
     "@simbathesailor/use-what-changed": "^1.0.0",
