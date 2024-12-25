@@ -74,7 +74,7 @@ module.exports = {
         : []),
       new AntdDayjsWebpackPlugin(),
       new DefinePlugin({
-        "__GIT_VERSION__": DefinePlugin.runtimeValue(() => JSON.stringify(undefined), []),
+        "__GIT_VERSION__": DefinePlugin.runtimeValue(() => JSON.stringify("1.2.3"), []),
         "__GIT_COMMIT_HASH__": DefinePlugin.runtimeValue(() => JSON.stringify(process.env.SOURCE_COMMIT), []),
         "__BUILD_TIME__": DefinePlugin.runtimeValue(Date.now),
         "__GIT_COMMITS__": JSON.stringify(commits),
@@ -84,7 +84,7 @@ module.exports = {
         ? [new SentryCliPlugin({
           include: "./build/",
           ignore: ["node_modules", "craco.config.js", "tools", "public"],
-          release: "kristweb2-react@" + undefined
+          release: "kristweb2-react@" + "1.2.3"
         })]
         : [])
     ],
