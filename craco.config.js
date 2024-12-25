@@ -3,7 +3,7 @@
 // Full details: https://github.com/tmpim/KristWeb2/blob/master/LICENSE.txt
 const path = require("path");
 const CracoAlias = require("craco-alias");
-const CracoLessPlugin = require("craco-less");
+const CracoLessPlugin = require("@lemmmy/craco-less");
 const AntdDayjsWebpackPlugin = require("antd-dayjs-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const WebpackBar = require("webpackbar");
