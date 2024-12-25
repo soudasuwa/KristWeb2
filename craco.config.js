@@ -93,16 +93,9 @@ module.exports = {
       sideEffects: true
     },
 
-    configure: (webpackConfig) => {
-      webpackConfig.devtool = process.env.NODE_ENV === "development"
+    configure: {
+      devtool: process.env.NODE_ENV === "development"
         ? "eval" : "hidden-source-map"
-
-      webpackConfig.resolve.fallback = {
-        ...webpackConfig.resolve.fallback,
-        stream: require.resolve("stream-browserify"),
-        buffer: require.resolve("buffer/"),
-      };
-      return webpackConfig;
-    },
+    }
   },
 };
