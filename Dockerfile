@@ -1,5 +1,5 @@
 # Build app
-FROM node:20-alpine AS build
+FROM node:16-alpine AS build
 
 RUN apk update && apk add git gzip
 
@@ -29,7 +29,7 @@ ENV SENTRY_URL=$SENTRY_URL
 RUN yarn run build
 RUN yarn run optimise
 
-FROM node:20-alpine
+FROM node:16-alpine
 
 WORKDIR /build
 COPY --from=build /build/build ./build
