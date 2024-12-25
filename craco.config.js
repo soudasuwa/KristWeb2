@@ -3,7 +3,7 @@
 // Full details: https://github.com/tmpim/KristWeb2/blob/master/LICENSE.txt
 const path = require("path");
 const CracoAlias = require("craco-alias");
-const CracoLessPlugin = require("@lemmmy/craco-less");
+const CracoLessPlugin = require("craco-less");
 const AntdDayjsWebpackPlugin = require("antd-dayjs-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const WebpackBar = require("webpackbar");
@@ -101,9 +101,16 @@ module.exports = {
       sideEffects: true
     },
 
-    configure: {
-      devtool: process.env.NODE_ENV === "development"
+    configure: (webpackConfig) => {
+      webpackConfig.devtool = process.env.NODE_ENV === "development"
         ? "eval" : "hidden-source-map"
-    }
+
+      webpackConfig.resolve.fallback = {
+        ...webpackConfig.resolve.fallback,
+        stream: require.resolve("stream-browserify"),
+        buffer: require.resolve("buffer/"),
+      };
+      return webpackConfig;
+    },
   },
 };

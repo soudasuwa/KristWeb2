@@ -1,5 +1,5 @@
 # Build app
-FROM node:16-alpine AS build
+FROM node:20-alpine AS build
 
 RUN apk update && apk add git gzip
 
@@ -29,9 +29,7 @@ ENV SENTRY_URL=$SENTRY_URL
 RUN yarn run build
 RUN yarn run optimise
 
-# Copy the build files to the output folder (ideally volumed in) to be consumed
-# by the webserver
-FROM node:16-alpine
+FROM node:20-alpine
 
 WORKDIR /build
 COPY --from=build /build/build ./build
