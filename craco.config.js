@@ -7,16 +7,9 @@ const CracoLessPlugin = require("craco-less");
 const AntdDayjsWebpackPlugin = require("antd-dayjs-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const WebpackBar = require("webpackbar");
-const GitRevisionPlugin = require("git-revision-webpack-plugin");
 const { DefinePlugin } = require("webpack");
 const { commits } = require("./tools/commitLog");
 const SentryCliPlugin = require("@sentry/webpack-plugin");
-
-const gitRevisionPlugin = new GitRevisionPlugin({
-  // Include the "-dirty" suffix if the local tree has been modified, and
-  // include non-annotated tags.
-  versionCommand: "describe --always --tags --dirty"
-});
 
 module.exports = {
   style: {
@@ -80,10 +73,9 @@ module.exports = {
         ? [new BundleAnalyzerPlugin({ openAnalyzer: false })]
         : []),
       new AntdDayjsWebpackPlugin(),
-      gitRevisionPlugin,
       new DefinePlugin({
-        "__GIT_VERSION__": DefinePlugin.runtimeValue(() => JSON.stringify(gitRevisionPlugin.version()), []),
-        "__GIT_COMMIT_HASH__": DefinePlugin.runtimeValue(() => JSON.stringify(gitRevisionPlugin.commithash()), []),
+        "__GIT_VERSION__": DefinePlugin.runtimeValue(() => JSON.stringify(undefined), []),
+        "__GIT_COMMIT_HASH__": DefinePlugin.runtimeValue(() => JSON.stringify(process.env.SOURCE_COMMIT), []),
         "__BUILD_TIME__": DefinePlugin.runtimeValue(Date.now),
         "__GIT_COMMITS__": JSON.stringify(commits),
         "__PKGBUILD__": DefinePlugin.runtimeValue(() => JSON.stringify(require("crypto").createHash("sha256").update(require("fs").readFileSync("package.json")).digest("hex").substr(0, 7)), ["package.json"])
@@ -92,7 +84,7 @@ module.exports = {
         ? [new SentryCliPlugin({
           include: "./build/",
           ignore: ["node_modules", "craco.config.js", "tools", "public"],
-          release: "kristweb2-react@" + gitRevisionPlugin.version()
+          release: "kristweb2-react@" + undefined
         })]
         : [])
     ],
